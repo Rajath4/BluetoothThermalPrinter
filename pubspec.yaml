@@ -1,8 +1,8 @@
 name: bluetooth_thermal_printer
-description: A new Flutter plugin.
+description: A simple Flutter plugin to connect to bluetooth printers
 version: 0.0.1
-author:
-homepage:
+homepage: https://github.com/Rajath4/BluetoothThermalPrinter.git
+repository: https://github.com/Rajath4/BluetoothThermalPrinter.git
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
