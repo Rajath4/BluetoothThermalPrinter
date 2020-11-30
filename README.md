@@ -22,3 +22,8 @@ This package does not use Location Permission. By that, it follows google's poli
 Here are some [printers tested with this library](printers.md). Please add the models you have tested to maintain and improve this library and help others to choose the right printer.
 
 For a complete example, check the [example project](example/).
+
+## Test Print
+<img src="./demo1.jpg" alt="test receipt"/>
+
+<img src="./demo2.jpg" alt="test receipt"/>
