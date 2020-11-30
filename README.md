@@ -24,6 +24,6 @@ Here are some [printers tested with this library](printers.md). Please add the m
 For a complete example, check the [example project](example/).
 
 ## Test Print
-<img src="https://github.com/Rajath4/BluetoothThermalPrinter/blob/master/demo1.jpg" alt="test receipt" width="400"/>
+<img src="https://raw.githubusercontent.com/Rajath4/BluetoothThermalPrinter/master/demo1.jpg" alt="test receipt" width="400"/>
 
-<img src="https://github.com/Rajath4/BluetoothThermalPrinter/blob/master/demo2.jpg" alt="test receipt" width="400"/>
+<img src="https://raw.githubusercontent.com/Rajath4/BluetoothThermalPrinter/master/demo2.jpg" alt="test receipt" width="400"/>

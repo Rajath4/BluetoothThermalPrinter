@@ -10,3 +10,7 @@
 ## 0.0.3
 
 * Updated document
+
+## 0.0.4
+
+* Updated document
