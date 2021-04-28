@@ -43,8 +43,8 @@ class _MyAppState extends State<MyApp> {
   Future<void> printTicket() async {
     String isConnected = await BluetoothThermalPrinter.connectionStatus;
     if (isConnected == "true") {
-      Ticket ticket = await getTicket();
-      final result = await BluetoothThermalPrinter.writeBytes(ticket.bytes);
+      List<int> bytes = await getTicket();
+      final result = await BluetoothThermalPrinter.writeBytes(bytes);
       print("Print $result");
     } else {
       //Hadnle Not Connected Senario
@@ -54,36 +54,40 @@ class _MyAppState extends State<MyApp> {
   Future<void> printGraphics() async {
     String isConnected = await BluetoothThermalPrinter.connectionStatus;
     if (isConnected == "true") {
-      Ticket ticket = await getGraphicsTicket();
-      final result = await BluetoothThermalPrinter.writeBytes(ticket.bytes);
+      List<int> bytes = await getGraphicsTicket();
+      final result = await BluetoothThermalPrinter.writeBytes(bytes);
       print("Print $result");
     } else {
       //Hadnle Not Connected Senario
     }
   }
 
-  Future<Ticket> getGraphicsTicket() async {
+  Future<List<int>> getGraphicsTicket() async {
+    List<int> bytes = [];
+
     CapabilityProfile profile = await CapabilityProfile.load();
-    final Ticket ticket = Ticket(PaperSize.mm80, profile);
+    final generator = Generator(PaperSize.mm80, profile);
 
     // Print QR Code using native function
-    ticket.qrcode('example.com');
+    bytes += generator.qrcode('example.com');
 
-    ticket.hr();
+    bytes += generator.hr();
 
     // Print Barcode using native function
     final List<int> barData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 4];
-    ticket.barcode(Barcode.upcA(barData));
+    bytes += generator.barcode(Barcode.upcA(barData));
 
-    ticket.cut();
+    bytes += generator.cut();
 
-    return ticket;
+    return bytes;
   }
 
-  Future<Ticket> getTicket() async {
+  Future<List<int>> getTicket() async {
+    List<int> bytes = [];
     CapabilityProfile profile = await CapabilityProfile.load();
-    final Ticket ticket = Ticket(PaperSize.mm80, profile);
-    ticket.text("Demo Shop",
+    final generator = Generator(PaperSize.mm80, profile);
+
+    bytes += generator.text("Demo Shop",
         styles: PosStyles(
           align: PosAlign.center,
           height: PosTextSize.size2,
@@ -91,14 +95,14 @@ class _MyAppState extends State<MyApp> {
         ),
         linesAfter: 1);
 
-    ticket.text(
+    bytes += generator.text(
         "18th Main Road, 2nd Phase, J. P. Nagar, Bengaluru, Karnataka 560078",
         styles: PosStyles(align: PosAlign.center));
-    ticket.text('Tel: +919591708470',
+    bytes += generator.text('Tel: +919591708470',
         styles: PosStyles(align: PosAlign.center));
 
-    ticket.hr();
-    ticket.row([
+    bytes += generator.hr();
+    bytes += generator.row([
       PosColumn(
           text: 'No',
           width: 1,
@@ -121,7 +125,7 @@ class _MyAppState extends State<MyApp> {
           styles: PosStyles(align: PosAlign.right, bold: true)),
     ]);
 
-    ticket.row([
+    bytes += generator.row([
       PosColumn(text: "1", width: 1),
       PosColumn(
           text: "Tea",
@@ -139,7 +143,7 @@ class _MyAppState extends State<MyApp> {
       PosColumn(text: "10", width: 2, styles: PosStyles(align: PosAlign.right)),
     ]);
 
-    ticket.row([
+    bytes += generator.row([
       PosColumn(text: "2", width: 1),
       PosColumn(
           text: "Sada Dosa",
@@ -157,7 +161,7 @@ class _MyAppState extends State<MyApp> {
       PosColumn(text: "30", width: 2, styles: PosStyles(align: PosAlign.right)),
     ]);
 
-    ticket.row([
+    bytes += generator.row([
       PosColumn(text: "3", width: 1),
       PosColumn(
           text: "Masala Dosa",
@@ -175,7 +179,7 @@ class _MyAppState extends State<MyApp> {
       PosColumn(text: "50", width: 2, styles: PosStyles(align: PosAlign.right)),
     ]);
 
-    ticket.row([
+    bytes += generator.row([
       PosColumn(text: "4", width: 1),
       PosColumn(
           text: "Rova Dosa",
@@ -193,9 +197,9 @@ class _MyAppState extends State<MyApp> {
       PosColumn(text: "70", width: 2, styles: PosStyles(align: PosAlign.right)),
     ]);
 
-    ticket.hr();
+    bytes += generator.hr();
 
-    ticket.row([
+    bytes += generator.row([
       PosColumn(
           text: 'TOTAL',
           width: 6,
@@ -214,19 +218,20 @@ class _MyAppState extends State<MyApp> {
           )),
     ]);
 
-    ticket.hr(ch: '=', linesAfter: 1);
+    bytes += generator.hr(ch: '=', linesAfter: 1);
 
     // ticket.feed(2);
-    ticket.text('Thank you!',
+    bytes += generator.text('Thank you!',
         styles: PosStyles(align: PosAlign.center, bold: true));
 
-    ticket.text("26-11-2020 15:22:45",
+    bytes += generator.text("26-11-2020 15:22:45",
         styles: PosStyles(align: PosAlign.center), linesAfter: 1);
 
-    ticket.text('Note: Goods once sold will not be taken back or exchanged.',
+    bytes += generator.text(
+        'Note: Goods once sold will not be taken back or exchanged.',
         styles: PosStyles(align: PosAlign.center, bold: false));
-    ticket.cut();
-    return ticket;
+    bytes += generator.cut();
+    return bytes;
   }
 
   @override
