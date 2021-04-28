@@ -1,7 +1,10 @@
+## 0.0.6
+
+* Updated description
+
 ## 0.0.5
 
-* Added Generator in example
-* Null Safety Support
+* Added Generator in example and flutter 2.0 support
 
 ## 0.0.4
 
