@@ -13,34 +13,38 @@ This package does not use Location Permission. By that, it follows google's poli
 
 ### Simple Ticket with Styles:
 ```dart
-Ticket testTicket() {
-  final Ticket ticket = Ticket(PaperSize.mm80);
+List<int> testTicket() {
+  final List<int> bytes = [];
+  // Using default profile
+  final profile = await CapabilityProfile.load();
+  final generator = Generator(PaperSize.mm80, profile);
+  List<int> bytes = [];
 
-  ticket.text(
+  bytes += generator.text(
       'Regular: aA bB cC dD eE fF gG hH iI jJ kK lL mM nN oO pP qQ rR sS tT uU vV wW xX yY zZ');
-  ticket.text('Special 1: àÀ èÈ éÉ ûÛ üÜ çÇ ôÔ',
+  bytes += generator.text('Special 1: àÀ èÈ éÉ ûÛ üÜ çÇ ôÔ',
       styles: PosStyles(codeTable: PosCodeTable.westEur));
-  ticket.text('Special 2: blåbærgrød',
+  bytes += generator.text('Special 2: blåbærgrød',
       styles: PosStyles(codeTable: PosCodeTable.westEur));
 
-  ticket.text('Bold text', styles: PosStyles(bold: true));
-  ticket.text('Reverse text', styles: PosStyles(reverse: true));
-  ticket.text('Underlined text',
+  bytes += generator.text('Bold text', styles: PosStyles(bold: true));
+  bytes += generator.text('Reverse text', styles: PosStyles(reverse: true));
+  bytes += generator.text('Underlined text',
       styles: PosStyles(underline: true), linesAfter: 1);
-  ticket.text('Align left', styles: PosStyles(align: PosAlign.left));
-  ticket.text('Align center', styles: PosStyles(align: PosAlign.center));
-  ticket.text('Align right',
+  bytes += generator.text('Align left', styles: PosStyles(align: PosAlign.left));
+  bytes += generator.text('Align center', styles: PosStyles(align: PosAlign.center));
+  bytes += generator.text('Align right',
       styles: PosStyles(align: PosAlign.right), linesAfter: 1);
 
-  ticket.text('Text size 200%',
+  bytes += generator.text('Text size 200%',
       styles: PosStyles(
         height: PosTextSize.size2,
         width: PosTextSize.size2,
       ));
 
-  ticket.feed(2);
-  ticket.cut();
-  return ticket;
+  bytes += generator.feed(2);
+  bytes += generator.cut();
+  return bytes;
 }
 ```
 
