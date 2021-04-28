@@ -1,6 +1,6 @@
 name: bluetooth_thermal_printer
 description: The library allows printing receipts using a Bluetooth printer(Android Only). It supports both 58mm and 80mm Bluetooth printers.This package does not use Location Permission. By that, it follows google's policy of Android 10.
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/Rajath4/BluetoothThermalPrinter.git
 repository: https://github.com/Rajath4/BluetoothThermalPrinter.git
 
