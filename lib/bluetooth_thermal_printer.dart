@@ -7,16 +7,16 @@ class BluetoothThermalPrinter {
       const MethodChannel('bluetooth_thermal_printer');
 
   /// Get android platform version.
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
+  static Future<String?> get platformVersion async {
+    final String? version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }
 
   /// Get list of all paired bluetooth devices
-  static Future<List> get getBluetooths async {
-    List items = new List();
+  static Future<List?> get getBluetooths async {
+    List? items = [];
     try {
-      final List result = await _channel.invokeMethod('bluetothLinked');
+      final List? result = await _channel.invokeMethod('bluetothLinked');
       items = result;
     } on PlatformException catch (e) {
       print("Bluetooth paired failure: '${e.message}'.");
@@ -26,9 +26,9 @@ class BluetoothThermalPrinter {
   }
 
   /// Get bluetooth device connection status
-  static Future<String> get connectionStatus async {
+  static Future<String?> get connectionStatus async {
     try {
-      final String result = await _channel.invokeMethod('connectionStatus');
+      final String? result = await _channel.invokeMethod('connectionStatus');
       return result;
     } on PlatformException catch (e) {
       print("Failed to write bytes: '${e.message}'.");
@@ -37,8 +37,8 @@ class BluetoothThermalPrinter {
   }
 
   /// Connect to device using [mac].
-  static Future<String> connect(String mac) async {
-    String result = "false";
+  static Future<String?> connect(String mac) async {
+    String? result = "false";
     try {
       result = await _channel.invokeMethod('connectPrinter', mac);
     } on PlatformException catch (e) {
@@ -48,9 +48,9 @@ class BluetoothThermalPrinter {
   }
 
   ///Printes the [bytes] using bluetooth printer.
-  static Future<String> writeBytes(List<int> bytes) async {
+  static Future<String?> writeBytes(List<int> bytes) async {
     try {
-      final String result = await _channel.invokeMethod('writeBytes', bytes);
+      final String? result = await _channel.invokeMethod('writeBytes', bytes);
       return result;
     } on PlatformException catch (e) {
       print("Failed to write bytes: '${e.message}'.");
@@ -59,9 +59,9 @@ class BluetoothThermalPrinter {
   }
 
   ///Printes the [text] using bluetooth printer.
-  static Future<String> writeText(String text) async {
+  static Future<String?> writeText(String text) async {
     try {
-      final String result = await _channel.invokeMethod('printText', text);
+      final String? result = await _channel.invokeMethod('printText', text);
       return result;
     } on PlatformException catch (e) {
       print("Failed to writeText: '${e.message}'.");
@@ -70,9 +70,9 @@ class BluetoothThermalPrinter {
   }
 
   /// Get battery level of the android device.
-  static Future<int> get getBatteryLevel async {
+  static Future<int?> get getBatteryLevel async {
     try {
-      final int result = await _channel.invokeMethod('getBatteryLevel');
+      final int? result = await _channel.invokeMethod('getBatteryLevel');
       return result;
     } on PlatformException catch (e) {
       print("Failed to get battery level: '${e.message}'.");
