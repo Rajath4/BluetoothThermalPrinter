@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   bool connected = false;
-  List availableBluetoothDevices = new List();
+  List availableBluetoothDevices = [];
 
   Future<void> getBluetooth() async {
     final List bluetooths = await BluetoothThermalPrinter.getBluetooths;
@@ -247,7 +247,7 @@ class _MyAppState extends State<MyApp> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Search Paired Bluetooth"),
-              OutlineButton(
+              TextButton(
                 onPressed: () {
                   this.getBluetooth();
                 },
@@ -264,7 +264,7 @@ class _MyAppState extends State<MyApp> {
                       onTap: () {
                         String select = availableBluetoothDevices[index];
                         List list = select.split("#");
-                        String name = list[0];
+                        // String name = list[0];
                         String mac = list[1];
                         this.setConnect(mac);
                       },
@@ -277,11 +277,11 @@ class _MyAppState extends State<MyApp> {
               SizedBox(
                 height: 30,
               ),
-              OutlineButton(
+              TextButton(
                 onPressed: connected ? this.printGraphics : null,
                 child: Text("Print"),
               ),
-              OutlineButton(
+              TextButton(
                 onPressed: connected ? this.printTicket : null,
                 child: Text("Print Ticket"),
               ),
