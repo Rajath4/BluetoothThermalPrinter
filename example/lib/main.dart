@@ -31,15 +31,16 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> setConnect(String mac) async {
-    final String isConnected = await BluetoothThermalPrinter.connectionStatus;
+    //final String isConnected = await BluetoothThermalPrinter.connectionStatus;
 
-    if (isConnected == 'true') {
+    /*if (isConnected == 'true') {
       print('device is already connected. Disconnecting');
       final disconnResult = await BluetoothThermalPrinter.disconnect();
       print('disconnection result $disconnResult');
-    }
+    }*/
 
-    final String result = await BluetoothThermalPrinter.connect(mac);
+    final String result =
+        await BluetoothThermalPrinter.connect(mac, silentDisconnect: true);
     print("state conneected $result");
     if (result == "true") {
       setState(() {

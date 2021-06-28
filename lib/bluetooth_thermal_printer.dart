@@ -37,9 +37,21 @@ class BluetoothThermalPrinter {
   }
 
   /// Connect to device using [mac].
-  static Future<String?> connect(String mac) async {
+  static Future<String?> connect(
+    String mac, {
+    bool silentDisconnect: false,
+  }) async {
     String? result = "false";
     try {
+      if (silentDisconnect) {
+        //check connection status
+        final String? status = await connectionStatus;
+
+        if (status == "true") {
+          //disconnect from previous connection
+          await disconnect();
+        }
+      }
       result = await _channel.invokeMethod('connectPrinter', mac);
     } on PlatformException catch (e) {
       print("Failed to connect: '${e.message}'.");
