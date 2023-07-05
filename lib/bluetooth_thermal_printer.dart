@@ -46,6 +46,17 @@ class BluetoothThermalPrinter {
     }
     return result;
   }
+  // disconnect to any connected device                        --> new feature
+  static Future<String?> disconnect() async {
+    String? result = "false";
+    try {
+      result = await _channel.invokeMethod('disconnectPrinter');
+    } on PlatformException catch (e) {
+      print("Failed to disconnect: '${e.message}'.");
+    }
+    return result;
+  }
+
 
   ///Printes the [bytes] using bluetooth printer.
   static Future<String?> writeBytes(List<int> bytes) async {
