@@ -101,11 +101,9 @@ class BluetoothThermalPrinterPlugin: FlutterPlugin, MethodCallHandler{
           }
         }
       }
-    }
-    // new feature
-    else if (call.method == "disconnectPrinter") {
+     }else if (call.method == "disconnectPrinter") {
       GlobalScope.launch(Dispatchers.Main) {
-        if (outputStream != null) {
+        if(outputStream != null) {
           outputStream = disconnect()?.also {
             //result.success("true")
             //Toast.makeText(this@MainActivity, "Connected to printer", Toast.LENGTH_SHORT).show()
@@ -115,9 +113,7 @@ class BluetoothThermalPrinterPlugin: FlutterPlugin, MethodCallHandler{
           }
         }
       }
-    }
-      else if (call.method == "writeBytes") {
-
+     } else if (call.method == "writeBytes") {
 
       var lista: List<Int> = call.arguments as List<Int>
       var bytes: ByteArray = "\n".toByteArray()
@@ -246,6 +242,40 @@ class BluetoothThermalPrinterPlugin: FlutterPlugin, MethodCallHandler{
     }
   }
 
+  private suspend fun disconnect(): OutputStream? {
+    state = "false"
+    return withContext(Dispatchers.IO) {
+      var outputStream: OutputStream? = outputStream
+      val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+      if (bluetoothAdapter != null && bluetoothAdapter.isEnabled) {
+        try {
+          if(mac.length>0) {
+          val bluetoothAddress = mac
+          val bluetoothDevice = bluetoothAdapter.getRemoteDevice(bluetoothAddress)
+          var bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(
+                  UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
+          )
+          bluetoothSocket.close()
+          //bluetoothSocket=null
+        }
+          Log.d(TAG, "Disconnected: ")
+          outputStream?.close()
+          outputStream=null
+        } catch (e: Exception){
+          state = "false"
+          var code:Int = e.hashCode() //1535159 off //
+          Log.d(TAG, "connect: ${e.message} code $code")
+          outputStream?.close()
+        }
+      }else{
+        state = "false"
+        outputStream=null
+        Log.d(TAG, "Adapter problem")
+      }
+      outputStream
+    }
+  }
+
   private fun getLinkedDevices():List<String>{
 
     val listItems: MutableList<String> = mutableListOf()
@@ -343,4 +373,3 @@ class BluetoothThermalPrinterPlugin: FlutterPlugin, MethodCallHandler{
     channel.setMethodCallHandler(null)
   }
 }
-
