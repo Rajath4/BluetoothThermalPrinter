@@ -101,7 +101,23 @@ class BluetoothThermalPrinterPlugin: FlutterPlugin, MethodCallHandler{
           }
         }
       }
-    }else if (call.method == "writeBytes") {
+    }
+    // new feature
+    else if (call.method == "disconnectPrinter") {
+      GlobalScope.launch(Dispatchers.Main) {
+        if (outputStream != null) {
+          outputStream = disconnect()?.also {
+            //result.success("true")
+            //Toast.makeText(this@MainActivity, "Connected to printer", Toast.LENGTH_SHORT).show()
+          }.apply {
+            result.success("true")
+            //Log.d(TAG, "finished: Connection state:$state")
+          }
+        }
+      }
+    }
+      else if (call.method == "writeBytes") {
+
 
       var lista: List<Int> = call.arguments as List<Int>
       var bytes: ByteArray = "\n".toByteArray()
