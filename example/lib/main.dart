@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bluetooth_thermal_printer/bluetooth_thermal_printer.dart';
-import 'package:esc_pos_utils_plus/esc_pos_utils.dart';
+import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -23,15 +23,15 @@ class _MyAppState extends State<MyApp> {
   List availableBluetoothDevices = [];
 
   Future<void> getBluetooth() async {
-    final List? bluetooths = await BluetoothThermalPrinter.getBluetooths;
+    final List bluetooths = await BluetoothThermalPrinter.getBluetooths;
     print("Print $bluetooths");
     setState(() {
-      availableBluetoothDevices = bluetooths!;
+      availableBluetoothDevices = bluetooths;
     });
   }
 
   Future<void> setConnect(String mac) async {
-    final String? result = await BluetoothThermalPrinter.connect(mac);
+    final String result = await BluetoothThermalPrinter.connect(mac);
     print("state conneected $result");
     if (result == "true") {
       setState(() {
@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> printTicket() async {
-    String? isConnected = await BluetoothThermalPrinter.connectionStatus;
+    String isConnected = await BluetoothThermalPrinter.connectionStatus;
     if (isConnected == "true") {
       List<int> bytes = await getTicket();
       final result = await BluetoothThermalPrinter.writeBytes(bytes);
@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> printGraphics() async {
-    String? isConnected = await BluetoothThermalPrinter.connectionStatus;
+    String isConnected = await BluetoothThermalPrinter.connectionStatus;
     if (isConnected == "true") {
       List<int> bytes = await getGraphicsTicket();
       final result = await BluetoothThermalPrinter.writeBytes(bytes);
