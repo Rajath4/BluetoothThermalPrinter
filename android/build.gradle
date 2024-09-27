@@ -25,13 +25,15 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 29
+    namespace 'com.peoplewareinnovations.bluetooth_thermal_printer'
+    compileSdkVersion 34
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21
+        targetSdk 34
     }
     lintOptions {
         disable 'InvalidPackage'
