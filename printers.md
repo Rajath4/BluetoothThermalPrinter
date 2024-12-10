@@ -7,3 +7,7 @@
 **Xprinter Portable Thermal Printer**
 
   Model: BC-P80B2 (paper size 80mm)
+
+**Xmjprinter Portable Thermal Printer**
+
+  Model: MTP-II/PT210/PT200 (paper size 30-80mm)
